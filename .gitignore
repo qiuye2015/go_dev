@@ -24,3 +24,5 @@ src/google.golang.org/
 src/gonum.org/
 src/GrpcCode/grpc-go
 src/uuid_forward
+src/uuid.txt
+src/result*.txt
