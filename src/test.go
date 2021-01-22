@@ -93,6 +93,10 @@ func main() {
 	//	fmt.Println("---------")
 	//}
 
-	fmt.Println(float64(100) / 200)
+	PcProduct := make([]uint8, 64)
+	fmt.Println(len(PcProduct), cap(PcProduct))
+
+	PcProduct = append(PcProduct, 1)
+	fmt.Println(len(PcProduct), cap(PcProduct))
 
 }

@@ -3,10 +3,11 @@ package filetuil
 import (
 	"bufio"
 	"fmt"
+	"github.com/fsnotify/fsnotify"
 	"io"
+	"log"
 	"os"
 	"strings"
-	"github.com/fsnotify/fsnotify"
 )
 
 func FileWatcher(actions map[string]func(path string) error) {
@@ -30,9 +31,8 @@ func FileWatcher(actions map[string]func(path string) error) {
 		case ev := <-watcher.Events:
 			if ev.Op&fsnotify.Write == fsnotify.Write ||
 				ev.Op&fsnotify.Remove == fsnotify.Remove {
-				fmt.Println("file changed:", ev.Name, actions)
+				log.Println("file changed:", ev.Name, actions)
 				if f, ok := actions[ev.Name]; ok {
-					fmt.Println("act")
 					if err = f(ev.Name); err != nil {
 						fmt.Println(err)
 					}
