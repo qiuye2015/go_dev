@@ -1,0 +1,18 @@
+syntax = "proto3";
+option go_package = ".;proto";
+
+service Download{
+  rpc Download(DownloadReq) returns(stream DownloadRes){}
+}
+
+message DownloadReq{
+  string path = 1;
+  int64 offset = 2;
+  int64 size = 3;
+}
+
+message DownloadRes{
+  int64 offset = 1;
+  int64 size = 2;
+  bytes data = 3;
+}
