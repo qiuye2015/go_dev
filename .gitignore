@@ -22,6 +22,7 @@ src/github.com/
 src/golang.org/
 src/google.golang.org/
 src/gonum.org/
+src/go.opentelemetry.io
 src/gopkg.in
 src/go.etcd.io
 src/GrpcCode/grpc-go
