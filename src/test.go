@@ -2,46 +2,31 @@ package main
 
 import (
 	"fmt"
-	"net/http"
-	"time"
+	"math/rand"
+	"strconv"
+	"strings"
 )
 
-func main() {
-	start := time.Now()
-
-	apis := []string{
-		"https://management.azure.com",
-		"https://dev.azure.com",
-		"https://api.github.com",
-		"https://outlook.office.com/",
-		"https://api.somewhereintheinternet.com/",
-		"https://graph.microsoft.com",
+func getWorkId(Host string) int {
+	workerId := 0
+	ip := strings.Split(Host, ".")
+	if len(ip) == 4 {
+		for _, value := range ip {
+			ipValue, _ := strconv.Atoi(value)
+			workerId += ipValue & 0xFF
+		}
+	} else {
+		workerId = rand.Intn(1024)
 	}
-	ch := make(chan string)
-	for _, api := range apis {
-		//_, err := http.Get(api)
-		//if err != nil {
-		//	fmt.Printf("ERROR: %s is down!\n", api)
-		//	continue
-		//}
-		//
-		//fmt.Printf("SUCCESS: %s is up and running!\n", api)
-		go checkAPI(api, ch)
-	}
-	for i := 0; i < len(apis); i++ {
-		fmt.Print(<-ch)
-	}
-	elapsed := time.Since(start)
-	fmt.Printf("Done! It took %v seconds!\n", elapsed.Seconds())
-
+	return workerId
 }
 
-func checkAPI(api string, ch chan string) {
-	_, err := http.Get(api)
-	if err != nil {
-		ch <- fmt.Sprintf("ERROR: %s is down!\n", api)
-		return
+func main() {
+	host_list := []string{
+		"255.255.255.255",
+	}
+	for _, v := range host_list {
+		fmt.Println(getWorkId(v), v)
 	}
 
-	ch <- fmt.Sprintf("SUCCESS: %s is up and running!\n", api)
 }
