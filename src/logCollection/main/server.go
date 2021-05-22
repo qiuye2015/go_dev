@@ -1,11 +1,13 @@
 package main
 
 import (
-	"kafka"
-	"tailf"
+	//"kafka"
+	//"tailf"
+	kafka "logCollection/kafka"
+	tailf "logCollection/tailf"
 	"time"
 
-	"github.com/astaxie/beego/logs"
+	"github.com/beego/beego/core/logs"
 )
 
 func serverRun() (err error) {

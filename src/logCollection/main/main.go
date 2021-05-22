@@ -2,10 +2,13 @@ package main
 
 import (
 	"fmt"
-	"kafka"
-	"tailf"
+	//"kafka"
+	//"tailf"
+	kafka "logCollection/kafka"
+	tailf "logCollection/tailf"
 
-	"github.com/astaxie/beego/logs"
+	//"github.com/astaxie/beego/logs"
+	"github.com/beego/beego/core/logs"
 )
 
 func main() {

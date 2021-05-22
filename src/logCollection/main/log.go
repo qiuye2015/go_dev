@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/astaxie/beego/logs"
+	"github.com/beego/beego/core/logs"
 )
 
 func convertLogLevel(level string) int {

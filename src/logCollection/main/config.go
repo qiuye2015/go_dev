@@ -4,9 +4,11 @@ import (
 	"errors"
 	"fmt"
 
-	"tailf"
+	//"tailf"
+	tailf "logCollection/tailf"
 
-	"github.com/astaxie/beego/config"
+	//"github.com/astaxie/beego/config"
+	"github.com/beego/beego/core/config"
 )
 
 type Config struct {
@@ -25,13 +27,13 @@ var (
 
 func loadCollectConf(conf config.Configer) (err error) {
 	var cc tailf.CollectConf
-	cc.LogPath = conf.String("collect::log_path")
+	cc.LogPath, _ = conf.String("collect::log_path")
 	if len(cc.LogPath) == 0 {
 		err = errors.New("invalid collect::log_path")
 		return
 	}
 
-	cc.Topic = conf.String("collect::topic")
+	cc.Topic, _ = conf.String("collect::topic")
 	if len(cc.Topic) == 0 {
 		err = errors.New("invalid collect::topic")
 		return
@@ -46,16 +48,16 @@ func loadConf(confType, filename string) (err error) {
 		return
 	}
 	appConfig = &Config{}
-	appConfig.logLevel = conf.String("logs::log_level")
+	appConfig.logLevel, _ = conf.String("logs::log_level")
 	if len(appConfig.logLevel) == 0 {
 		appConfig.logLevel = "debug"
 	}
-	appConfig.logPath = conf.String("logs::log_path")
+	appConfig.logPath, _ = conf.String("logs::log_path")
 	if len(appConfig.logPath) == 0 {
 		appConfig.logPath = "./logs"
 	}
 
-	appConfig.kafkaAddr = conf.String("kafka::kafka_addr")
+	appConfig.kafkaAddr, _ = conf.String("kafka::kafka_addr")
 	if len(appConfig.kafkaAddr) == 0 {
 		err = fmt.Errorf("invalid kafka addr")
 		return
@@ -66,7 +68,7 @@ func loadConf(confType, filename string) (err error) {
 		appConfig.chanSize = 100
 	}
 
-	appConfig.etcdAddr = conf.String("etcd::addr")
+	appConfig.etcdAddr, _ = conf.String("etcd::addr")
 	if len(appConfig.etcdAddr) == 0 {
 		err = fmt.Errorf("invalid etcd addr")
 	}

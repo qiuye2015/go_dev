@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/astaxie/beego/logs"
+	"github.com/beego/beego/core/logs"
 	"github.com/hpcloud/tail"
 )
 

@@ -2,7 +2,7 @@ package kafka
 
 import (
 	"github.com/Shopify/sarama"
-	"github.com/astaxie/beego/logs"
+	"github.com/beego/beego/core/logs"
 )
 
 var (
