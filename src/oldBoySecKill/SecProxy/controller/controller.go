@@ -1,9 +1,13 @@
 package controller
 
 import (
+	"fmt"
 	beego "github.com/astaxie/beego/adapter"
 	"github.com/astaxie/beego/core/logs"
 	"oldBoySecKill/SecProxy/service"
+	"strconv"
+	"strings"
+	"time"
 )
 
 type SecKillController struct {
@@ -30,13 +34,25 @@ func (p *SecKillController) SecKill() {
 		return
 	}
 	secRequest := &service.SKRequest{}
+	secRequest.AccessTime = time.Now()
 	secRequest.ProductID = productID
 	secRequest.Source = p.GetString("source")     // 来源
 	secRequest.AuthCode = p.GetString("authcode") // 鉴权码
 	secRequest.SecTime = p.GetString("time")      // 当前时间
 	secRequest.Nance = p.GetString("nance")       // 随机数
-	secRequest.UserID = p.Ctx.GetCookie("userID")
+
 	secRequest.UserAuthSign = p.Ctx.GetCookie("userAuthSign")
+	secRequest.UserID, err = strconv.Atoi(p.Ctx.GetCookie("userID"))
+	if err != nil {
+		result["code"] = service.ErrCodeInvalidRequest
+		result["message"] = fmt.Sprintf("invalid cookie:userID")
+		logs.Error("invaild request,get product_id failed,err:%v", err)
+		return
+	}
+	if len(p.Ctx.Request.RemoteAddr) > 0 {
+		secRequest.ClientAddr = strings.Split(p.Ctx.Request.RemoteAddr, ":")[0]
+	}
+	secRequest.ClientRefer = p.Ctx.Request.Referer()
 
 	data, code, err := service.SecKill(secRequest)
 	if err != nil {

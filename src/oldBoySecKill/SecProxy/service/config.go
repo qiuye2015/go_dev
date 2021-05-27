@@ -1,20 +1,37 @@
 package service
 
 import (
+	"github.com/gomodule/redigo/redis"
+	clientV3 "go.Etcd.io/etcd/client/v3"
 	"sync"
+	"time"
 )
 
-type SecKillConf struct {
+type SecKillCtx struct {
 	LogPath  string
 	LogLevel string
 
 	RedisConf RedisConfig
 	EtcdConf  EtcdConfig
 
+	RedisPool  *redis.Pool
+	EtcdClient *clientV3.Client
+
 	SKProdInfosMap    map[int]*SKProductInfo
 	SKProdInfosRWLock sync.RWMutex
 
-	CookieSecretKey string
+	CookieSecretKey            string
+	UserAccessLimitEverySecond int
+	IpAccessLimitEverySecond   int
+	ReferWhiteList             []string
+
+	IdBlackMap       map[int]bool
+	IpBlackMap       map[string]bool
+	IdBlackMapRWLock sync.RWMutex
+	IpBlackMapRWLock sync.RWMutex
+
+	SecKillReqChan    chan *SKRequest
+	SecKillReqChanNum int
 }
 type RedisConfig struct {
 	RedisAddr        string
@@ -53,4 +70,13 @@ type SKRequest struct {
 	Nance        string
 	UserID       int
 	UserAuthSign string
+	AccessTime   time.Time
+
+	ClientAddr  string
+	ClientRefer string
+
+	CloseNotify <-chan bool
+	ResultChan  chan *SKResult
+}
+type SKResult struct {
 }

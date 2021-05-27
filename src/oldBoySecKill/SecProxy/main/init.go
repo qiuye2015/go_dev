@@ -7,7 +7,7 @@ import (
 	beego "github.com/astaxie/beego/adapter"
 	"github.com/astaxie/beego/core/logs"
 	"github.com/gomodule/redigo/redis"
-	clientv3 "go.Etcd.io/etcd/client/v3"
+	clientV3 "go.Etcd.io/etcd/client/v3"
 	"go.etcd.io/etcd/api/mvccpb"
 	"oldBoySecKill/SecProxy/service"
 	"strings"
@@ -15,15 +15,12 @@ import (
 )
 
 var (
-	gSecKillConf = &service.SecKillConf{
+	gSecKillConf = &service.SecKillCtx{
 		SKProdInfosMap: make(map[int]*service.SKProductInfo, 1024),
 	}
-	gRedisPool  *redis.Pool
-	gEtcdClient *clientv3.Client
 )
 
 func initConfig() (err error) {
-	gSecKillConf.CookieSecretKey = beego.AppConfig.String("dev::cookieSecretKey")
 	//logs
 	gSecKillConf.LogPath = beego.AppConfig.String("dev::logPath")
 	gSecKillConf.LogLevel = beego.AppConfig.String("dev::logLevel")
@@ -72,48 +69,68 @@ func initConfig() (err error) {
 		err = fmt.Errorf("init config failed, redis[%s] or etcd[%s] config is null", redisAddr, etcdAddr)
 		return
 	}
+
+	gSecKillConf.CookieSecretKey = beego.AppConfig.String("dev::cookieSecretKey")
+	userAccessLimitEverySecond, err := beego.AppConfig.Int("dev::userAccessLimitEverySecond")
+	if err != nil {
+		err = fmt.Errorf("init config Int failed,err:%v", err)
+		return
+	}
+	gSecKillConf.UserAccessLimitEverySecond = userAccessLimitEverySecond
+
+	ipAccessLimitEverySecond, err := beego.AppConfig.Int("dev::ipAccessLimitEverySecond")
+	if err != nil {
+		err = fmt.Errorf("init config Int failed,err:%v", err)
+		return
+	}
+	gSecKillConf.IpAccessLimitEverySecond = ipAccessLimitEverySecond
+
+	refers := beego.AppConfig.String("dev::referWhiteList")
+	if len(refers) > 0 {
+		gSecKillConf.ReferWhiteList = strings.Split(refers, ",")
+	}
 	logs.Info("initConfig success gSecKillConf = %v", gSecKillConf)
 	return
 }
 
 func initSecKill() (err error) {
 	if err = initLogs(); err != nil {
-		logs.Error("init logger faild, err:%v", err)
+		logs.Error("init logger failed, err:%v", err)
 		return
 	}
 	if err = initRedis(); err != nil {
-		logs.Error("init redis faild, err:%v", err)
+		logs.Error("init redis failed, err:%v", err)
 		return
 	}
 	if err = initEtcd(); err != nil {
-		logs.Error("init etcd faild, err:%v", err)
+		logs.Error("init etcd failed, err:%v", err)
 		return
 	}
 	if err = loadSKProdInfos(); err != nil {
-		logs.Error("loadSKProdInfos faild, err:%v", err)
+		logs.Error("loadSKProdInfos failed, err:%v", err)
 		return
 	}
 
-	logs.Info("init seckill succ")
+	logs.Info("init sec kill success")
 	return
 }
 
 func initLogs() (err error) {
 	logConfig := make(map[string]interface{})
 	logConfig["filename"] = gSecKillConf.LogPath
-	logConfig["level"] = converLogLevel(gSecKillConf.LogLevel)
+	logConfig["level"] = convertLogLevel(gSecKillConf.LogLevel)
 	logConfigStr, err := json.Marshal(logConfig)
 	if err != nil {
 		logs.Error("marshal failed, err:%v", err)
 		return err
 	}
-	logs.SetLogger(logs.AdapterFile, string(logConfigStr))
+	_ = logs.SetLogger(logs.AdapterFile, string(logConfigStr))
 	return
 }
 
 func initRedis() (err error) {
 
-	gRedisPool = &redis.Pool{
+	gRedisPool := &redis.Pool{
 		Dial: func() (redis.Conn, error) {
 			return redis.Dial("tcp", gSecKillConf.RedisConf.RedisAddr)
 		},
@@ -130,12 +147,14 @@ func initRedis() (err error) {
 	_, err = conn.Do("ping")
 	if err != nil {
 		logs.Error("ping redis failed, err:%v", err)
+		return
 	}
+	gSecKillConf.RedisPool = gRedisPool
 	return
 }
 
 func initEtcd() (err error) {
-	gEtcdClient, err = clientv3.New(clientv3.Config{
+	gEtcdClient, err := clientV3.New(clientV3.Config{
 		Endpoints:   []string{gSecKillConf.EtcdConf.EtcdAddr},
 		DialTimeout: time.Duration(gSecKillConf.EtcdConf.EtcdTimeout) * time.Second,
 	})
@@ -143,10 +162,11 @@ func initEtcd() (err error) {
 		logs.Error("connect etcd failed, err:%v", err)
 		return
 	}
+	gSecKillConf.EtcdClient = gEtcdClient
 	return
 }
 
-func converLogLevel(level string) int {
+func convertLogLevel(level string) int {
 	switch level {
 	case "info":
 		return logs.LevelInfo
@@ -166,7 +186,7 @@ func loadSKProdInfos() (err error) {
 
 	//resp, err := gEtcdClient.Get(ctx, "greeting")
 	key := gSecKillConf.EtcdConf.EtcdProductKey
-	resp, err := gEtcdClient.Get(ctx, key)
+	resp, err := gSecKillConf.EtcdClient.Get(ctx, key)
 	if err != nil {
 		logs.Error("get [%s] from etcd failed,err:%v", key, err)
 		return
@@ -178,7 +198,7 @@ func loadSKProdInfos() (err error) {
 			logs.Error("json Unmarshal failed, err:%v", err)
 			return
 		}
-		logs.Debug("seckill products info is = %v", products)
+		logs.Debug("sec kill products info is = %v", products)
 	}
 	updateSKProdMap(products)
 	go watchEtcd()
@@ -190,11 +210,11 @@ func watchEtcd() {
 	key := gSecKillConf.EtcdConf.EtcdProductKey
 	logs.Debug("begin watch key = %s", key)
 	for {
-		rch := gEtcdClient.Watch(context.Background(), key)
+		rch := gSecKillConf.EtcdClient.Watch(context.Background(), key)
 		var products []service.SKProductInfo
-		getConfSucc := true
-		for wresp := range rch {
-			for _, ev := range wresp.Events {
+		getConfSuccess := true
+		for resp := range rch {
+			for _, ev := range resp.Events {
 				if ev.Type == mvccpb.DELETE {
 					logs.Warn("key[%s]'s config is deleted", key)
 					continue
@@ -202,14 +222,14 @@ func watchEtcd() {
 				if ev.Type == mvccpb.PUT && string(ev.Kv.Key) == key {
 					if err := json.Unmarshal(ev.Kv.Value, &products); err != nil {
 						logs.Error("key[%s],Unmarshal failed,err:%v", key, err)
-						getConfSucc = false
+						getConfSuccess = false
 						continue
 					}
 				}
 				logs.Debug("get config from etcd, Type[%s],Key[%q],Value[%q]", ev.Type, ev.Kv.Key, ev.Kv.Value)
 			}
-			if getConfSucc {
-				logs.Debug("get config from etcd succ, %v", products)
+			if getConfSuccess {
+				logs.Debug("get config from etcd success, %v", products)
 				updateSKProdMap(products)
 			}
 		}

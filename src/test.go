@@ -12,7 +12,14 @@ import (
 var count int32
 
 func main() {
-	TestDoDupSuppress()
+	fm := map[int]int{1: 1, 2: 3}
+	tmp := make(map[int]int)
+	tmp = fm
+	fmt.Println(fm)
+	fmt.Println(tmp)
+	fmt.Printf("%p\n", &fm)
+	fmt.Printf("%p\n", &tmp)
+	//TestDoDupSuppress()
 	//
 	//loadGroup := &singleflight.Group{}
 	////res := []<-chan singleflight.Result{}
@@ -28,7 +35,7 @@ func main() {
 	//		fmt.Println(resVec, shared)
 	//	}()
 	//}
-	time.Sleep(time.Second)
+	//time.Sleep(time.Second)
 
 	//for i := 0; i < 10; i++ {
 	//	dat := <-res[i]

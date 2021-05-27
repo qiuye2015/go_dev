@@ -25,6 +25,7 @@ src/gonum.org/
 src/go.opentelemetry.io
 src/gopkg.in
 src/go.etcd.io
+src/go.uber.org
 src/GrpcCode/grpc-go
 src/uuid_forward
 src/uuid.txt

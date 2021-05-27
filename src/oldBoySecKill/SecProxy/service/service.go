@@ -7,18 +7,10 @@ import (
 )
 
 var (
-	gServiceConf *SecKillConf
+	gServiceConf *SecKillCtx
 )
 
-func InitService(serviceConf *SecKillConf) {
-	gServiceConf = serviceConf
-	//logs.Debug("init service success, config = %v", serviceConf)
-	return
-}
-
 func SecInfo(productID int) (data []map[string]interface{}, code int, err error) {
-	code = ErrCodeNormal
-
 	gServiceConf.SKProdInfosRWLock.RLock()
 	//defer gServiceConf.SKProdInfosRWLock.RUnlock()
 	v, ok := gServiceConf.SKProdInfosMap[productID]
@@ -34,13 +26,17 @@ func SecInfo(productID int) (data []map[string]interface{}, code int, err error)
 
 	if v.Status == ProductStatusForceSaleOut || v.Status == ProductStatusSaleOut {
 		status = "product is sale out"
+		code = ErrCodeActiveSaleOut
 	} else if (v.Status == ProductStatusNormal) && now >= v.StartTime && now <= v.EndTime {
 		start = true
 		status = "sec kill is starting"
+		code = ErrCodeNormal
 	} else if now < v.EndTime {
 		status = "sec kill is not start"
+		code = ErrCodeActiveNotStart
 	} else {
 		status = "sec kill is already end"
+		code = ErrCodeActiveAlreadyEnd
 	}
 
 	item := make(map[string]interface{})
@@ -68,7 +64,7 @@ func SecInfoList() (data []map[string]interface{}, code int, err error) {
 	return
 }
 
-func SecKill(req *SKRequest) (data map[string]interface{}, code int, err error) {
+func SecKill(req *SKRequest) (data []map[string]interface{}, code int, err error) {
 	if err = userCheck(req); err != nil {
 		code = ErrCodeUserCheckFailed
 		logs.Warn("userID = %d check failed, req = %v", req.UserID, req)
@@ -79,9 +75,11 @@ func SecKill(req *SKRequest) (data map[string]interface{}, code int, err error) 
 		logs.Warn("userID = %d check failed, req = %v", req.UserID, req)
 		return
 	}
-	return
-}
-func userCheck(req *SKRequest) (err error) {
-
+	data, code, err = SecInfo(req.ProductID)
+	if err != nil || code != ErrCodeNormal {
+		logs.Warn("userID[%d],get Sec Info failed, code:%v, err:%v", req.UserID, code, err)
+		return
+	}
+	gServiceConf.SecKillReqChan <- req
 	return
 }

@@ -6,4 +6,7 @@ const (
 	ErrCodeNotFoundProdutID = -2
 	ErrCodeUserCheckFailed  = -3
 	ErrCodeServiceBusy      = -4
+	ErrCodeActiveNotStart   = -5
+	ErrCodeActiveAlreadyEnd = -6
+	ErrCodeActiveSaleOut    = -7
 )
