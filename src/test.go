@@ -1,82 +1,66 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"io"
+	"io/ioutil"
+	"log"
+	"net/http"
+	"time"
+)
+
+// Step1: 实现一个HTTP Server
+// Step2: 实现一个HTTP Handler
+// Step3: 实现中间件的功能：
+//    (1)、实现HTTP中间件记录请求的URL、方法。
+//    (2)、实现HTTP中间件记录请求的网络地址。
+//    (3)、实现HTTP中间件记录请求的耗时。
+
+// 记录请求的URL和方法
+func tracing(next http.HandlerFunc) http.HandlerFunc {
+	return func(resp http.ResponseWriter, req *http.Request) {
+		log.Printf("实现HTTP中间件记录请求的URL和方法：%s, %s", req.URL, req.Method)
+		next.ServeHTTP(resp, req)
+	}
+}
+
+// 记录请求的网络地址
+func logging(next http.HandlerFunc) http.HandlerFunc {
+	return func(resp http.ResponseWriter, req *http.Request) {
+		log.Printf("实现HTTP中间件记录请求的网络地址：%s", req.RemoteAddr)
+		next.ServeHTTP(resp, req)
+	}
+}
+
+// 记录请求的耗时
+func processing(next http.HandlerFunc) http.HandlerFunc {
+	return func(resp http.ResponseWriter, req *http.Request) {
+		start := time.Now()
+		next.ServeHTTP(resp, req)
+		duration := time.Since(start)
+		log.Printf("实现HTTP中间件记录请求的耗时: %v", duration)
+	}
+}
+
+func HelloHandler(resp http.ResponseWriter, req *http.Request) {
+	log.Printf("helloHandler")
+	io.WriteString(resp, "hello world")
+}
+
+//func main() {
+//	//http.HandleFunc("/", tracing(HelloHandler))
+//	http.HandleFunc("/", tracing(logging(processing(HelloHandler))))
+//	log.Printf("starting http server at: %s", "http://127.0.0.1:8080")
+//	log.Fatal(http.ListenAndServe(":8080", nil))
+//}
 
 func main() {
-
-	pateMetaDssmV2 := [32]float32{
-		-0.0566768,
-		0.1114281,
-		0.1611595,
-		0.2947426,
-		-0.148115,
-		-0.2203664,
-		0.0277192,
-		0.0451674,
-		-0.0583828,
-		0.0850807,
-		0.4846479,
-		-0.1459548,
-		0.2474133,
-		-0.1050592,
-		-0.1656007,
-		-0.0256274,
-		0.094723,
-		0.0480251,
-		0.0316887,
-		0.0080696,
-		-0.1678345,
-		0.4250722,
-		0.189119,
-		-0.0767446,
-		-0.152952,
-		0.0466894,
-		-0.0825848,
-		-0.0373283,
-		0.0451667,
-		0.2530019,
-		-0.0195184,
-		0.2607218,
+	resp, err := http.Get("http://httpbin.org/get?name=luozhiyun&age=27")
+	if err != nil {
+		fmt.Println(err)
+		return
 	}
-	DssmV2 := [32]float32{
-		-0.2246129,
-		-0.3166444,
-		0.2087591,
-		-0.0119459,
-		0.2809669,
-		-0.1486573,
-		0.2211434,
-		-0.0214158,
-		0.0322398,
-		0.0894552,
-		-0.1140119,
-		0.0266201,
-		0.3883772,
-		0.3745371,
-		0.1602794,
-		0.0353211,
-		0.2155317,
-		0.0728184,
-		0.0405175,
-		-0.2082957,
-		-0.0925293,
-		-0.1074096,
-		-0.1011607,
-		-0.1283451,
-		-0.0821733,
-		0.1257775,
-		0.0997013,
-		0.1472104,
-		0.0897594,
-		0.0878741,
-		0.095348,
-		0.3028427,
-	}
-	sum := float32(0.0)
-	for idx, a := range DssmV2 {
-		sum += a * pateMetaDssmV2[idx]
-	}
-	fmt.Println(sum)
-
-	//fmt.Println(pateMetaDssmV2)
+	defer resp.Body.Close()
+	body, _ := ioutil.ReadAll(resp.Body)
+	fmt.Println(string(body))
 }
