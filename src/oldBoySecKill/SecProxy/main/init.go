@@ -4,12 +4,15 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	beego "github.com/astaxie/beego/adapter"
-	"github.com/astaxie/beego/core/logs"
+
+	beego "github.com/astaxie/beego"
+	"github.com/astaxie/beego/logs"
 	"github.com/gomodule/redigo/redis"
-	clientV3 "go.Etcd.io/etcd/client/v3"
-	"go.etcd.io/etcd/api/mvccpb"
-	"oldBoySecKill/SecProxy/service"
+	"github.com/qiuye2015/go_dev/oldBoySecKill/SecProxy/service"
+	//"go.etcd.io/etcd/mvcc/mvccpb"
+	"go.etcd.io/etcd/api/v3/mvccpb"
+
+	clientV3 "go.etcd.io/etcd/client/v3"
 	"strings"
 	"time"
 )
@@ -134,7 +137,6 @@ func initRedis() (err error) {
 		Dial: func() (redis.Conn, error) {
 			return redis.Dial("tcp", gSecKillConf.RedisConf.RedisAddr)
 		},
-		DialContext:     nil,
 		TestOnBorrow:    nil,
 		MaxIdle:         gSecKillConf.RedisConf.RedisMaxIdle,
 		MaxActive:       gSecKillConf.RedisConf.RedisMaxActive,

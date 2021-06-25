@@ -1,7 +1,7 @@
 package main
 
 import (
-	proto "GrpcCode/02ClientStream"
+	proto "github.com/qiuye2015/go_dev/GrpcCode/02ClientStream"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 	"io"

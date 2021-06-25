@@ -2,7 +2,7 @@ package service
 
 import (
 	"github.com/gomodule/redigo/redis"
-	clientV3 "go.Etcd.io/etcd/client/v3"
+	clientV3 "go.etcd.io/etcd/client/v3"
 	"sync"
 	"time"
 )

@@ -1,7 +1,7 @@
 package parser
 
 import (
-	"crawler_Standalone/model"
+	"github.com/qiuye2015/go_dev/crawler/model"
 	"io/ioutil"
 	"testing"
 )
@@ -16,7 +16,8 @@ func TestParseProfile(t *testing.T) {
 		t.Errorf("Items should contain 1 "+
 			"element; but was %v", result.Items)
 	}
-	profile := result.Items[0].(model.Profile)
+
+	profile := result.Items[0].Payload.(model.Profile)
 	expected := model.Profile{
 		Age:      44,
 		Name:     "余生有你",

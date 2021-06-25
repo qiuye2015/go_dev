@@ -1,8 +1,8 @@
 package douban
 
 import (
-	"crawler/engine"
 	"fmt"
+	"github.com/qiuye2015/go_dev/crawler/engine"
 	"regexp"
 )
 

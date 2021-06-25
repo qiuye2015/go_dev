@@ -1,10 +1,10 @@
 package main
 
 import (
-	"crawler/engine"
-	"crawler/model"
-	"crawler_distributed/config"
-	"crawler_distributed/rpcsupport"
+	"github.com/qiuye2015/go_dev/crawler/engine"
+	"github.com/qiuye2015/go_dev/crawler/model"
+	"github.com/qiuye2015/go_dev/crawler_distributed/config"
+	"github.com/qiuye2015/go_dev/crawler_distributed/rpcsupport"
 	"testing"
 	"time"
 )

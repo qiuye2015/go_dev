@@ -1,9 +1,9 @@
 package persist
 
 import (
-	"crawler/engine"
-	"crawler/persist"
 	"github.com/olivere/elastic"
+	"github.com/qiuye2015/go_dev/crawler/engine"
+	"github.com/qiuye2015/go_dev/crawler/persist"
 	"log"
 )
 

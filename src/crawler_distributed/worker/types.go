@@ -1,10 +1,10 @@
 package worker
 
 import (
-	"crawler/engine"
-	"crawler/zhenai/parser"
-	"crawler_distributed/config"
 	"github.com/pkg/errors"
+	"github.com/qiuye2015/go_dev/crawler/engine"
+	"github.com/qiuye2015/go_dev/crawler/zhenai/parser"
+	"github.com/qiuye2015/go_dev/crawler_distributed/config"
 	"log"
 )
 

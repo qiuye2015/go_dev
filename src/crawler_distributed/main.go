@@ -1,14 +1,14 @@
 package main
 
 import (
-	"crawler/engine"
-	"crawler/scheduler"
-	citylist "crawler/zhenai/parser"
-	"crawler_distributed/config"
-	itemsaver "crawler_distributed/persist/client"
-	"crawler_distributed/rpcsupport"
-	worker "crawler_distributed/worker/client"
 	"flag"
+	"github.com/qiuye2015/go_dev/crawler/engine"
+	"github.com/qiuye2015/go_dev/crawler/scheduler"
+	citylist "github.com/qiuye2015/go_dev/crawler/zhenai/parser"
+	"github.com/qiuye2015/go_dev/crawler_distributed/config"
+	itemsaver "github.com/qiuye2015/go_dev/crawler_distributed/persist/client"
+	"github.com/qiuye2015/go_dev/crawler_distributed/rpcsupport"
+	worker "github.com/qiuye2015/go_dev/crawler_distributed/worker/client"
 	"log"
 	"net/rpc"
 	"strings"

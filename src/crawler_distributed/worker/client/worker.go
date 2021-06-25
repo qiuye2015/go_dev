@@ -1,9 +1,9 @@
 package client
 
 import (
-	"crawler/engine"
-	"crawler_distributed/config"
-	"crawler_distributed/worker"
+	"github.com/qiuye2015/go_dev/crawler/engine"
+	"github.com/qiuye2015/go_dev/crawler_distributed/config"
+	"github.com/qiuye2015/go_dev/crawler_distributed/worker"
 	"net/rpc"
 )
 

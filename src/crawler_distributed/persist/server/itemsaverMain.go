@@ -1,12 +1,12 @@
 package main
 
 import (
-	"crawler_distributed/config"
-	"crawler_distributed/persist"
-	"crawler_distributed/rpcsupport"
 	"flag"
 	"fmt"
 	"github.com/olivere/elastic"
+	"github.com/qiuye2015/go_dev/crawler_distributed/config"
+	"github.com/qiuye2015/go_dev/crawler_distributed/persist"
+	"github.com/qiuye2015/go_dev/crawler_distributed/rpcsupport"
 	"log"
 )
 

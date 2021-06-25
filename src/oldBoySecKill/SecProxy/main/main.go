@@ -1,9 +1,9 @@
 package main
 
 import (
-	beego "github.com/astaxie/beego/adapter"
-	_ "oldBoySecKill/SecProxy/router"
-	"oldBoySecKill/SecProxy/service"
+	beego "github.com/astaxie/beego"
+	_ "github.com/qiuye2015/go_dev/oldBoySecKill/SecProxy/router"
+	"github.com/qiuye2015/go_dev/oldBoySecKill/SecProxy/service"
 )
 
 func main() {

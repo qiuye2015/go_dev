@@ -2,7 +2,8 @@ package main
 
 import (
 	"fmt"
-	beego "github.com/astaxie/beego/adapter"
+	beego "github.com/astaxie/beego"
+	//beego "github.com/astaxie/beego/adapter"
 )
 
 type RESTfulController struct {

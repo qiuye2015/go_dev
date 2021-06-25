@@ -1,8 +1,8 @@
 package main
 
 import (
-	xiaozu "crawler_Standalone/douban"
-	"crawler_Standalone/engine"
+	xiaozu "github.com/qiuye2015/go_dev/crawler_Standalone/douban"
+	"github.com/qiuye2015/go_dev/crawler_Standalone/engine"
 )
 
 func main() {

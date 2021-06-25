@@ -1,7 +1,7 @@
 package xiaozu
 
 import (
-	"crawler_Standalone/engine"
+	"github.com/qiuye2015/go_dev/crawler_Standalone/engine"
 	"regexp"
 )
 

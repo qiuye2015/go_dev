@@ -2,8 +2,8 @@ package main
 
 import (
 	"context"
-	"filetuil"
 	"flag"
+	"github.com/qiuye2015/go_dev/filetuil"
 	"os"
 	"os/signal"
 	"strconv"

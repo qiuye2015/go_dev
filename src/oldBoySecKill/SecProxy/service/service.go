@@ -2,7 +2,7 @@ package service
 
 import (
 	"fmt"
-	"github.com/astaxie/beego/core/logs"
+	"github.com/astaxie/beego/logs"
 	"time"
 )
 

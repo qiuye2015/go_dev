@@ -1,8 +1,8 @@
 package main
 
 import (
-	proto "GrpcCode/02ClientStream"
-	"golang.org/x/net/context"
+	"context"
+	proto "github.com/qiuye2015/go_dev/GrpcCode/02ClientStream"
 	"google.golang.org/grpc"
 	"log"
 	"time"

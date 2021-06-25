@@ -2,7 +2,7 @@ package service
 
 import (
 	"encoding/json"
-	"github.com/astaxie/beego/core/logs"
+	"github.com/astaxie/beego/logs"
 	"github.com/gomodule/redigo/redis"
 	"strconv"
 	"time"

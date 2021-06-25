@@ -7437,3 +7437,7 @@
 2021/05/24 19:16:34.686  [I] [init.go:114]  init sec kill success
 2021/05/24 19:16:34.686  [D] [init.go:211]  begin watch key = /fjp/seckill/product
 2021/05/24 19:16:34.777  [I] [server.go:241]  http server Running on http://127.0.0.1:8080
+2021/06/25 11:43:01.017 [D] [init.go:112]  sec kill products info is = [{1000 1024 1024 1621558461 1621568461 0} {2000 1024 1024 1621558461 1621568461 0}]
+2021/06/25 11:43:01.018 [I] [main.go:16]  init sec kill success
+2021/06/25 11:43:01.018 [D] [asm_amd64.s:1373]  begin watch key = /fjp/seckill/product
+2021/06/25 11:43:01.099 [I] [asm_amd64.s:1373]  http server Running on http://127.0.0.1:8080

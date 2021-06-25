@@ -1,10 +1,10 @@
 package persist
 
 import (
-	"crawler/engine"
-	"crawler/model"
 	"encoding/json"
 	"github.com/olivere/elastic"
+	"github.com/qiuye2015/go_dev/crawler/engine"
+	"github.com/qiuye2015/go_dev/crawler/model"
 	"golang.org/x/net/context"
 	"testing"
 )

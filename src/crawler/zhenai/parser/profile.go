@@ -1,8 +1,8 @@
 package parser
 
 import (
-	"crawler_Standalone/engine"
-	"crawler_Standalone/model"
+	"github.com/qiuye2015/go_dev/crawler/engine"
+	"github.com/qiuye2015/go_dev/crawler/model"
 	"regexp"
 	"strconv"
 )
@@ -21,9 +21,13 @@ func ParseProfile(contents []byte, name string) engine.ParseResult {
 
 	result := engine.ParseResult{
 		Requests: nil,
-		Items:    []interface{}{profile},
+		//Items:    []interface{}{profile},
+		Items: []engine.Item{
+			engine.Item{
+				Payload: profile,
+			},
+		},
 	}
-
 	return result
 }
 

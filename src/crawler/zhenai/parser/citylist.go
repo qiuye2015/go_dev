@@ -1,8 +1,8 @@
 package parser
 
 import (
-	"crawler/engine"
-	"crawler_distributed/config"
+	"github.com/qiuye2015/go_dev/crawler/config"
+	"github.com/qiuye2015/go_dev/crawler/engine"
 	"regexp"
 )
 

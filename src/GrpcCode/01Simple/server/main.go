@@ -1,8 +1,8 @@
 package main
 
 import (
-	proto "GrpcCode/01Simple"
-	"golang.org/x/net/context"
+	"context"
+	proto "github.com/qiuye2015/go_dev/GrpcCode/01Simple"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 	"log"

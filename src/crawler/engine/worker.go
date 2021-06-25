@@ -1,7 +1,7 @@
 package engine
 
 import (
-	"crawler/fetcher"
+	"github.com/qiuye2015/go_dev/crawler/fetcher"
 	"log"
 )
 

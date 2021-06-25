@@ -1,8 +1,8 @@
 package main
 
 import (
-	proto "GrpcCode/03ServerStream"
 	"context"
+	proto "github.com/qiuye2015/go_dev/GrpcCode/03ServerStream"
 	"google.golang.org/grpc"
 	"log"
 	"time"

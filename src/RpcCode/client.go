@@ -1,14 +1,15 @@
 package main
 
 import (
-	"RpcCode/param"
+	//"RpcCode/param"
 	"fmt"
+	"github.com/qiuye2015/go_dev/param"
 	"net/rpc"
 )
 
 func main() {
-	client,err:=rpc.DialHTTP("tcp","localhost:8081")
-	if err !=nil {
+	client, err := rpc.DialHTTP("tcp", "localhost:8081")
+	if err != nil {
 		panic(err.Error())
 	}
 	//var req float32
@@ -29,9 +30,9 @@ func main() {
 	//fmt.Println(*resSync)
 
 	var result *float32
-	addParam:=&param.AddParam{Args1: 1,Args2: 2}
-	err=client.Call("fjp.Add",addParam,&result)
-	if err != nil{
+	addParam := &param.AddParam{Args1: 1, Args2: 2}
+	err = client.Call("fjp.Add", addParam, &result)
+	if err != nil {
 		panic(err.Error())
 	}
 	fmt.Println(*result)

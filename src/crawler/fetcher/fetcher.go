@@ -2,8 +2,8 @@ package fetcher
 
 import (
 	"bufio"
-	"crawler_distributed/config"
 	"fmt"
+	"github.com/qiuye2015/go_dev/crawler/config"
 	"golang.org/x/net/html/charset"
 	"golang.org/x/text/encoding"
 	"golang.org/x/text/encoding/unicode"

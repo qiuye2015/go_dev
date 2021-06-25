@@ -1,11 +1,11 @@
 package main
 
 import (
-	"crawler/douban"
-	"crawler/engine"
-	"crawler/persist"
-	"crawler/scheduler"
-	"crawler_distributed/config"
+	"github.com/qiuye2015/go_dev/crawler/config"
+	"github.com/qiuye2015/go_dev/crawler/douban"
+	"github.com/qiuye2015/go_dev/crawler/engine"
+	"github.com/qiuye2015/go_dev/crawler/persist"
+	"github.com/qiuye2015/go_dev/crawler/scheduler"
 )
 
 func main() {

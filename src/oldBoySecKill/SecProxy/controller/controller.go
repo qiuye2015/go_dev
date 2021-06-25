@@ -2,9 +2,9 @@ package controller
 
 import (
 	"fmt"
-	beego "github.com/astaxie/beego/adapter"
-	"github.com/astaxie/beego/core/logs"
-	"oldBoySecKill/SecProxy/service"
+	beego "github.com/astaxie/beego"
+	"github.com/astaxie/beego/logs"
+	"github.com/qiuye2015/go_dev/oldBoySecKill/SecProxy/service"
 	"strconv"
 	"strings"
 	"time"

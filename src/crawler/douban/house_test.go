@@ -1,7 +1,7 @@
 package douban
 
 import (
-	"crawler/model"
+	"github.com/qiuye2015/go_dev/crawler/model"
 	"io/ioutil"
 	"testing"
 )

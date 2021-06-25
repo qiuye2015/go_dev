@@ -1,7 +1,7 @@
 package main
 
 import (
-	"errHandling/filelistingServer/filelisting"
+	"github.com/qiuye2015/go_dev/errHandling/filelistingServer/filelisting"
 	"log"
 	"net/http"
 	_ "net/http/pprof"
@@ -25,8 +25,8 @@ func errWrapper(handler appHandler) func(http.ResponseWriter, *http.Request) {
 
 		if err != nil {
 			log.Printf("Error handling request：%s", err.Error())
-			if userErr, ok:=err.(userError);ok{
-				http.Error(writer,userErr.Message(),http.StatusBadRequest)
+			if userErr, ok := err.(userError); ok {
+				http.Error(writer, userErr.Message(), http.StatusBadRequest)
 				return
 			}
 			code := http.StatusOK

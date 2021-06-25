@@ -1,7 +1,8 @@
 package main
 
 import (
-	"RpcCode/param"
+	//"RpcCode/param"
+	"github.com/qiuye2015/go_dev/param"
 	"net"
 	"net/http"
 	"net/rpc"
@@ -9,6 +10,7 @@ import (
 
 type MathUtil struct {
 }
+
 // 一
 // 该方法向外暴露
 //func (mu *MathUtil) CalulatorCircalArea(req float32, resp *float32) error {
@@ -18,7 +20,7 @@ type MathUtil struct {
 
 // 二
 func (mu *MathUtil) Add(param param.AddParam, resp *float32) error {
-	*resp = param.Args1+param.Args2
+	*resp = param.Args1 + param.Args2
 	return nil
 }
 
@@ -28,7 +30,7 @@ func main() {
 
 	//2. 调用net/rpc包的功能将服务对象进行注册
 	//err := rpc.Register(mathUtil)
-	err:=rpc.RegisterName("fjp",mathUtil)
+	err := rpc.RegisterName("fjp", mathUtil)
 	if err != nil {
 		panic(err.Error())
 	}

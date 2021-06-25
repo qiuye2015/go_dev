@@ -3,7 +3,7 @@ package service
 import (
 	"crypto/md5"
 	"fmt"
-	"github.com/astaxie/beego/core/logs"
+	"github.com/astaxie/beego/logs"
 	"sync"
 	"time"
 )

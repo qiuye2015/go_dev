@@ -1,10 +1,10 @@
 package main
 
 import (
-	"crawler_distributed/rpcsupport"
-	"crawler_distributed/worker"
 	"flag"
 	"fmt"
+	"github.com/qiuye2015/go_dev/crawler_distributed/rpcsupport"
+	"github.com/qiuye2015/go_dev/crawler_distributed/worker"
 	"log"
 )
 

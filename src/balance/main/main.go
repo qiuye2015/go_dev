@@ -6,7 +6,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/balance"
+	"github.com/qiuye2015/go_dev/balance"
 )
 
 func main() {
