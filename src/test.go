@@ -1,34 +1,23 @@
 package main
 
 import (
-	"context"
 	"fmt"
-	"time"
+	"io"
 )
 
+type fake struct{ io.Writer }
+
+func fred(logger io.Writer) {
+	fmt.Printf("%#v\n", logger)
+	if logger != nil {
+		logger.Write([]byte("..."))
+	}
+}
+
 func main() {
-	//ch := make(chan struct{})
-	ctx, cancel := context.WithCancel(context.Background())
-	go func(ctx context.Context) {
-		for {
-			select {
-			case <-ctx.Done():
-				//ch <- struct{}{}
-				fmt.Println("结束go")
-				return
-			default:
-				fmt.Println("default...")
-			}
-			time.Sleep(500 * time.Millisecond)
-		}
-	}(ctx)
-
-	go func() {
-		time.Sleep(3 * time.Second)
-		cancel()
-	}()
-
-	//<-ch
-	time.Sleep(10 * time.Second)
-	fmt.Println("结束")
+	var a *string = nil
+	var b interface{} = nil
+	fmt.Println("a == nil:", a == nil) // true
+	fmt.Println("b == nil:", b == nil) // true
+	fmt.Println("a == b:", a == b)     // false (尽管a和b的值都为nil)
 }

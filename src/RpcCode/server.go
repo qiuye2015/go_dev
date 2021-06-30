@@ -1,8 +1,7 @@
 package main
 
 import (
-	//"RpcCode/param"
-	"github.com/qiuye2015/go_dev/param"
+	"github.com/qiuye2015/go_dev/RpcCode/param"
 	"net"
 	"net/http"
 	"net/rpc"
