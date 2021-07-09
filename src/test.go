@@ -2,22 +2,23 @@ package main
 
 import (
 	"fmt"
-	"io"
+	"io/ioutil"
+	"log"
+	"net/http"
 )
 
-type fake struct{ io.Writer }
-
-func fred(logger io.Writer) {
-	fmt.Printf("%#v\n", logger)
-	if logger != nil {
-		logger.Write([]byte("..."))
-	}
+func init() {
+	log.SetFlags(log.Llongfile | log.LstdFlags)
+	log.Println("Init Success")
 }
 
 func main() {
-	var a *string = nil
-	var b interface{} = nil
-	fmt.Println("a == nil:", a == nil) // true
-	fmt.Println("b == nil:", b == nil) // true
-	fmt.Println("a == b:", a == b)     // false (尽管a和b的值都为nil)
+	resp, err := http.Get("http://httpbin.org/get?name=luozhiyun&age=27")
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	defer resp.Body.Close()
+	body, _ := ioutil.ReadAll(resp.Body)
+	fmt.Println(string(body))
 }

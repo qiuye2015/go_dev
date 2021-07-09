@@ -5,7 +5,9 @@ go 1.14
 require (
 	github.com/astaxie/beego v1.12.3
 	github.com/gin-gonic/gin v1.7.2
+	github.com/go-redis/redis/v8 v8.11.0
 	github.com/golang/protobuf v1.5.2 // indirect
+	github.com/gorilla/mux v1.8.0 // indirect
 	github.com/prometheus/client_golang v1.11.0 // indirect
 	github.com/stretchr/testify v1.7.0 // indirect
 	github.com/tal-tech/go-zero v1.1.8 // indirect

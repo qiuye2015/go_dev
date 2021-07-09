@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	beego "github.com/astaxie/beego"
+	"log"
 	//beego "github.com/astaxie/beego/adapter"
 )
 
@@ -40,6 +41,7 @@ type RegExpfulController struct {
 func (this *RegExpfulController) Get() {
 	this.Ctx.WriteString(fmt.Sprintf("In RegExp Mode!\n"))
 	id := this.Ctx.Input.Param(":id")
+	log.Println(this.Ctx.Request.URL)
 	this.Ctx.WriteString(fmt.Sprintf("id is :%s\n", id))
 
 	splat := this.Ctx.Input.Param(":splat")
